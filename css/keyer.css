@@ -1,0 +1,250 @@
+@font-face {
+  font-family: 'Paperlogy-8ExtraBold';
+  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-8ExtraBold.woff2') format('woff2');
+  font-weight: 800;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Paperlogy-6SemiBold';
+  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-6SemiBold.woff2') format('woff2');
+  font-weight: 800;
+  font-style: normal;
+}
+html::-webkit-scrollbar{
+  display: none;
+}
+body{
+  width: 1920px;
+  height: 1080px;
+  margin: 0;
+  padding: 0;
+  background-image: none;
+}
+.guide{
+  width: 1920px;
+  height: 1080px;
+  display: flex;
+  position: fixed;
+  z-index: 1;
+  display: none;
+}
+
+.coder{
+  width: 635px;
+  height: 110px;
+  margin: 53px;
+  border-radius: 5px;
+  overflow: hidden;
+  opacity: 1;
+  transition: width 0.3s ease, opacity 0.3s ease;
+  display: block;
+  position: absolute;
+  z-index: 10;
+}
+.tnsc{
+  width: 630px;
+  height: 80px;
+  background-color: #30ceae;
+  display: flex;
+  border-bottom: solid 2px #0d5042;
+  border-radius: 5px 5px 5px 0;
+}
+.away-tn, .home-tn{
+  width: 160px;
+  height: 100%;
+  display: flex;
+}
+.away-tn>p, .home-tn>p{
+  font-family: 'Paperlogy-8ExtraBold';
+  font-size: 35px;
+  color: #0d5042;
+  margin: auto;
+}
+.home-tn>p{
+  color: #45ddbf;
+}
+.home-tn{
+  background-color: #16705d;
+}
+
+.away-sc, .home-sc{
+  width: 90px;
+  background-color: #45ddbf;
+  display: flex;
+}
+.home-sc{
+  background-color: #1f927b;
+  border: none;
+}
+.away-sc>p, .home-sc>p{
+  font-family: 'Paperlogy-8ExtraBold';
+  font-size: 35px;
+  color: #0d5042;
+  margin: auto;
+}
+.home-sc>p{
+  color: #45ddbf;
+}
+
+.matchstate{
+  width: 130px;
+  height: 107px;
+  background-color: #0d5042;
+  border-radius: 0 5px 5px 0;
+  display: flex;
+}
+
+.inning{
+  width: 30px;
+  margin: auto 0 auto 10px;
+}
+.top{
+  width: 0px;
+  height: 0px;
+  border-bottom: calc( 8px * 1.732 ) solid #156958;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  margin: auto;
+}
+.btm{
+  width: 0px;
+  height: 0px;
+  border-bottom: calc( 8px * 1.732 ) solid #156958;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  rotate: 180deg;
+  margin: 0 auto;
+}
+#inningNum{
+  font-family: 'Paperlogy-8ExtraBold';
+  color: #fff;
+  text-align: center;
+  margin: 5px;
+}
+.icon{
+  width: 20px;
+  margin: 10px 5px -3px 5px;
+}
+
+.base-out-block{
+  width: 80px;
+  margin: auto;
+}
+.base{
+  width: 15px;
+  height: 15px;
+  background-color: #1d836e;
+  rotate: 45deg;
+  margin: auto;
+}
+#base2{
+  margin: 0 0 0 32px;
+}
+.base2-3-block{
+  width: 80px;
+  display: flex;
+  margin: 0 -0.5px;
+}
+
+.out-block{
+  width: 70px;
+  display: flex;
+  margin: 10px auto -3px auto;
+}
+.out{
+  width: 13px;
+  height: 13px;
+  background-color: #1d836e;
+  border-radius: 999px;
+  margin: auto;
+}
+
+.ball-strike-block{
+  width: 80px;
+  display: flex;
+}
+#ballCount{
+  font-family: 'Paperlogy-8ExtraBold';
+  color: #fff;
+  margin: 12px 5px -4px auto;
+}
+.dash{
+  font-family: 'Paperlogy-8ExtraBold';
+  color: #fff;
+  margin: 12px 0 -4px 0;
+}
+#strikeCount{
+  font-family: 'Paperlogy-8ExtraBold';
+  color: #fff;
+  margin: 12px auto -4px 5px;
+}
+
+.k{
+  width: 128.5px;
+  height: 108px;
+  margin: -1px -130px;
+  overflow: hidden;
+  border-radius: 0 5px 5px 0;
+  border-left: 2px solid #0d5042;
+  z-index: 20;
+}
+.k>video{
+  width: 133px;
+  margin: 0;
+  display: none;
+  transition: opacity 0.2s ease-in-out;
+  opacity: 0;
+}
+
+.homerun{
+  width: 630px;
+  height: 108px;
+  margin: -1px -501px;
+  overflow: hidden;
+  border-radius: 5px;
+  z-index: 20;
+}
+.homerun>video{
+  width: 632px;
+  margin: 0;
+  display: none;
+  transition: opacity 0.2s ease-in-out;
+  opacity: 0;
+}
+
+.player{
+  width: 500px;
+  height: 25px;
+  border-radius: 0 0 0 5px;
+  overflow: hidden;
+  display: flex;
+}
+.awaypalyer, .homeplayer{
+  width: 250px;
+  display: flex;
+  margin: 0;
+}
+.awaypalyer{
+  background-color: #30ceae;
+}
+.homeplayer{
+  background-color: #16705d;
+}
+.playertext, .pitch{
+  font-family: 'Paperlogy-6SemiBold';
+  color: #fff;
+  margin: 2px 10px;
+}
+.pitch{
+  margin: 2px 10px auto auto;
+}
+
+.coder-fade-in {
+  width: 635px;
+  opacity: 1;
+}
+
+.fade-out {
+  width: 0;
+  opacity: 0;
+}

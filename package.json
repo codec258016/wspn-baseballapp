@@ -1,0 +1,17 @@
+{
+  "name": "wspn-cg-app",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "devDependencies": {
+    "electron": "^35.2.0"
+  },
+  "dependencies": {
+    "express": "^5.1.0",
+    "open": "^10.1.1",
+    "ws": "^8.18.1"
+  }
+}
