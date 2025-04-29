@@ -64,7 +64,7 @@
 
 ![image](https://github.com/user-attachments/assets/3b5d49d9-549c-4fb0-afed-3eb1947b77f0)
 
-내용 입력 후 UPDATE버튼을 누르면 코더에 적용됨됨
+내용 입력 후 UPDATE버튼을 누르면 코더에 적용됨
 
 베이스
 
