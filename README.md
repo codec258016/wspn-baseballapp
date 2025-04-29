@@ -40,28 +40,31 @@
 
 **코더 사용방법**
 
-![image](https://github.com/user-attachments/assets/e87deecc-21af-4785-b5c5-e814ffc0cd2f)
+![image](https://github.com/user-attachments/assets/e623e97f-d915-4292-bb50-9040c04a5cc7)
 
-1열
 
-> CODER버튼을 통해 온, 오프 가능 (옆에 ON, OFF상태가 표시됨)
 
-> AWAY팀의 점수, 팀명 : HOME팀의 팀명, 점수 입력 후 UP 버튼을 누르면 코더에 적용됨
+> 1열: CODER버튼을 통해 온, 오프 가능 (옆에 ON, OFF상태가 표시됨)
 
-적용 결과
+> 2열: AWAY팀의 점수, 팀명 : HOME팀의 팀명, 점수 입력
+>
+> 적용 결과
 
 ![image](https://github.com/user-attachments/assets/e1dbbaa8-a7f1-49b2-a3b5-5ec5720738a6)
 
+> 3열 AWAY팀의 선수명 : HOME팀의 선수명 입력 P는 투구 횟수 (투수면 투구 숫자 입력, 타자면 공란으로 두면 됨)
 
-2열
+적용 결과
 
-> INNING에 회차 입력 및 초(TOP), 말(BTM) 선택 후 UP 버튼 누르면 코더에 적용됨
+![image](https://github.com/user-attachments/assets/fb4febed-238f-4aaf-b689-401d7f581b34)
 
-> B(Ball)/S(Strike)/O(Out) 입력 후 UP 버튼 누르면 코더에 적용됨
+> 4열: 이닝 정보 (Top/Bottom은 회초, 회말을 의미), B(Ball)/S(Strike)/O(Out) 카운트
 
-> Tip: INNING 정보와 B(Ball)/S(Strike)/O(Out) 정보가 한번에 코더에 적용되는 시스템
+적용 결과
 
-![image](https://github.com/user-attachments/assets/72b0f0d3-6c11-48f9-a030-0902771b5ca5)
+![image](https://github.com/user-attachments/assets/3b5d49d9-549c-4fb0-afed-3eb1947b77f0)
+
+내용 입력 후 UPDATE버튼을 누르면 코더에 적용됨됨
 
 베이스
 
@@ -69,7 +72,7 @@
 
 적용 결과
 
-![image](https://github.com/user-attachments/assets/3b5d49d9-549c-4fb0-afed-3eb1947b77f0)
+![image](https://github.com/user-attachments/assets/72b0f0d3-6c11-48f9-a030-0902771b5ca5)
 
 
 K, No Out K, HOMERUN
@@ -86,25 +89,6 @@ K, No Out K, HOMERUN
 Event Log
 
 > 버튼 클릭 시 코더로 전송되는 메세지 및 오류 정보가 뜸
-
-![image](https://github.com/user-attachments/assets/6ca78feb-67f0-4c85-bca3-639da2f2f342)
-
-타자, 투수 이름 및 투구수
-
-> 플레이어 이름과 P(투구 수)를 입력 후 UP 버튼을 누르면 코더에 적용
-
-> P 칸이 공백으로 둘 경우 타자로 인식하고 (B(Ball) - S(Strike)로 표시)
-> 타자의 B(Ball) - S(Strike)는 B/S/O 업데이트 후 업데이트 해야 적용됨
-
-![image](https://github.com/user-attachments/assets/5530a0d7-747b-43d6-b29c-6cece5312f29)
-먼저 업데이트 후
-
-![image](https://github.com/user-attachments/assets/6ca78feb-67f0-4c85-bca3-639da2f2f342)
-업데이트
-
-적용 결과
-
-![image](https://github.com/user-attachments/assets/fb4febed-238f-4aaf-b689-401d7f581b34)
 
 ## 로드맵
 단기 로드맵
