@@ -111,97 +111,53 @@
           }, 500);
         }
       }
-
-      if (msg === 'guide-on') {
-        document.body.style.backgroundImage = "url('/src/img/guide.png')";
-        document.body.style.backgroundSize = "cover"; // 필요한 경우 추가
-      } else if (msg === 'guide-off') {
-        document.body.style.backgroundImage = 'none';
-      }
-    
-      // 점수 업데이트
-      try {
-        const data = JSON.parse(event.data);
-        if (data.type === 'score-update') {
-          document.getElementById('awayTeam').innerText = data.payload.awayTeam;
-          document.getElementById('homeTeam').innerText = data.payload.homeTeam;
-          document.getElementById('awayScore').innerText = data.payload.awayScore;
-          document.getElementById('homeScore').innerText = data.payload.homeScore;
-        }
-      } catch (e) {
-        // 문자열일 경우 무시
-      }
-
-      // 플레이어 업데이트
+      
+      //데이터 업데이트
       try {
         const data = JSON.parse(event.data);
 
-        if (data.type === 'inning-update') {
-          BallCount = data.payload.ballCount || '';
-          StrikeCount = data.payload.strikeCount || '';
-        }
+        if (data.type === 'DataUpdate') {
+          //팀명/점수
+          document.getElementById('awayTeam').innerText = data.payload.AwayTn;
+          document.getElementById('homeTeam').innerText = data.payload.HomeTn;
+          document.getElementById('awayScore').innerText = data.payload.AwaySc;
+          document.getElementById('homeScore').innerText = data.payload.HomeSc;
 
-        if (data.type === 'player-update') {
-          document.getElementById('awayPlayer').innerText = data.payload.awayPlayer;
+          //플레이어/피칭
+          BallCount = data.payload.BallCount || '';
+          StrikeCount = data.payload.StrikeCount || '';
+          
+          document.getElementById('awayPlayer').innerText = data.payload.AwayPlayer;
           document.getElementById('awayPitchCount').innerText =
-          data.payload.awayPitchCount && data.payload.awayPitchCount.trim() !== ''
-            ? 'P. ' + data.payload.awayPitchCount
+          data.payload.AwayPitch && data.payload.AwayPitch.trim() !== ''
+            ? 'P. ' + data.payload.AwayPitch
             : BallCount + ' - ' + StrikeCount;
-        }
-        if (data.type === 'player-update') {
-          document.getElementById('homePlayer').innerText = data.payload.homePlayer;
+          document.getElementById('homePlayer').innerText = data.payload.HomePlayer;
           document.getElementById('homePitchCount').innerText =
-          data.payload.homePitchCount && data.payload.homePitchCount.trim() !== ''
-            ? 'P. ' + data.payload.homePitchCount
+          data.payload.HomePitch && data.payload.HomePitch.trim() !== ''
+            ? 'P. ' + data.payload.HomePitch
             : BallCount + ' - ' + StrikeCount;
 
-        }
-        
-      } catch (e) {
-        // 문자열일 경우 무시
-      }
-      console.log(event.data);
-
-      // 이닝정보 업데이트
-      try {
-        const data = JSON.parse(event.data);
-        if (data.type === 'inning-update') {
-          document.getElementById('inningNum').innerText = data.payload.inningNum;
-        }
-      } catch (e) {
-        // 문자열일 경우 무시
-      }
-
-      // 이닝 TOP/BTM 업데이트
-      try {
-        const msg = JSON.parse(event.data);
-
-        if (msg.type === 'inning-update') {
-          const state = msg.payload.matchState?.toLowerCase(); // 소문자로 비교
+          //카운트
+          document.getElementById('ballCount').innerText = data.payload.BallCount;
+          document.getElementById('strikeCount').innerText = data.payload.StrikeCount;
+          document.getElementById('inningNum').innerText = data.payload.InningCount;
+          const state = data.payload.InningTBSelect;
           const top = document.getElementById('top');
           const btm = document.getElementById('btm');
 
-          if (state === 'top') {
+          if (state === 'Top') {
             top.style.borderBottom = 'calc( 8px * 1.732 ) solid #45ddbf';
             btm.style.borderBottom = 'calc( 8px * 1.732 ) solid #156958';
-          } else if (state === 'bottom') {
+          } else if (state === 'Btm') {
             top.style.borderBottom = 'calc( 8px * 1.732 ) solid #156958';
             btm.style.borderBottom = 'calc( 8px * 1.732 ) solid #45ddbf';
           } else {
             top.style.borderBottom = 'calc( 8px * 1.732 ) solid #156958';
             btm.style.borderBottom = 'calc( 8px * 1.732 ) solid #156958';
           }
-        }
-      } catch (e) {
-        console.error('메시지 처리 오류:', e);
-      }
 
-      // 아웃 카운트 업데이트
-      try {
-        const msg = JSON.parse(event.data);
-
-        if (msg.type === 'inning-update') {
-          const outCount = parseInt(msg.payload.outCount, 10);
+          const outCount = parseInt(data.payload.OutCount, 10);
           
           // 초기화
           for (let i = 1; i <= 3; i++) {
@@ -212,9 +168,19 @@
           for (let i = 1; i <= outCount && i <= 3; i++) {
             document.getElementById(`out${i}`).style.backgroundColor = '#45ddbf';
           }
+
+          
         }
       } catch (e) {
-        console.error('메시지 처리 오류:', e);
+        // 문자열일 경우 무시
+      }
+      console.log(event.data);
+
+      if (msg === 'guide-on') {
+        document.body.style.backgroundImage = "url('/src/img/guide.png')";
+        document.body.style.backgroundSize = "cover"; // 필요한 경우 추가
+      } else if (msg === 'guide-off') {
+        document.body.style.backgroundImage = 'none';
       }
 
       //도루 업데이트
@@ -238,17 +204,6 @@
         } 
       } catch (e) {
         console.error('메시지 처리 오류:', e);
-      }
-
-      // 볼, 스트라이크 업데이트
-      try {
-        const data = JSON.parse(event.data);
-        if (data.type === 'inning-update') {
-          document.getElementById('ballCount').innerText = data.payload.ballCount;
-          document.getElementById('strikeCount').innerText = data.payload.strikeCount;
-        }
-      } catch (e) {
-        // 문자열일 경우 무시
       }
 
       // outk/no-outk 비디오 재생

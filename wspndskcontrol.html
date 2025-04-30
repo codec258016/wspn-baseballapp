@@ -8,75 +8,74 @@
   <link rel="stylesheet" href="css/control.css" />
 </head>
 <body>
-  <div class="top">
-    <img src="src/icon/wspnicon.ico">
-    <h1>WSPN DSK</h1><span class="topline"></span><p>Baseball</p>
-    <button class="guide" onclick="toggleGuide()">Guide</button>
-    <button class="dsk_open" onclick="handleCopy()">DSK copy</button>
-    <button class="dsk_open" onclick="opendsker()">CG창 열기</button>
-  </div>
   <div class="full">
     <div class="side">
-      <div class="coder-ctrl">
-        <button class="coder-btn btn100px" onclick="toggleCoder()">CODER</button>
-        <div class="coder-status" id="coderStatus">OFF</div>
-        <p style="color: black;">A</p>
-        <input type="number" id="away-sc" value="0" min="0">
-        <input type="text" id="away-tn" placeholder="AWAY" ><p>:</p>
-        <input type="text" id="home-tn" placeholder="HOME" style="margin-left: 10px;">
-        <input type="number" id="home-sc" value="0" min="0" style="margin-right: 0;">
-        <p style="color: #27C0A2;">H</p>
-        <button class="coder-go btn50px btnend" id="coderUpdate" onclick="Coderchange()">UP</button>
-      </div>
-      <div class="coder-ctrl second">
-        <p class="pstart">INNING:</p>
-        <input type="number" id="inningnum" min="1" value="1">
-        <select id="matchstate" class="matchstate">
-          <option value="top">TOP</option>
-          <option value="bottom">BTM</option>
-        </select>
-        <p>B:</p>
-        <input type="number" id="ballcount" min="0" max="3" value="0">
-        <p>S:</p>
-        <input type="number" id="strikecount" min="0" max="3" value="0">
-        <button class="reset btn80px" onclick="Reset()">B/S Reset</button>
-        <p>O:</p>
-        <input type="number" id="outcount" min="0" max="3" value="0">
-        <button class="inning-update btn50px btnend" id="updateBtn" onclick="InningUpdate()">UP</button>
-      </div>
-      <div class="map">
-        <img src="src/img/map.png">
-        <button class="base2 basebtn" onclick="toggleBase2()"></button>
-        <div class="base2-3-block">
-          <button class="base3 basebtn" onclick="toggleBase3()"></button>
-          <button class="base1 basebtn" onclick="toggleBase1()"></button>
+      <div class="coder_dsk">
+        <button class="btn100px btnstart" onclick="toggleCoder()">CODER</button>
+        <div class="coder_state btn100px" id="coderStatus"><p>OFF</p></div>
+        <div class="dsk_ctrl">
+          <button class="btn100px" onclick="toggleGuide()">Guide</button>
+          <button class="btn100px btnend" onclick="handleCopy()">DSK Copy</button>
         </div>
       </div>
-      <div class="state">
-        <button class="K" onclick="toggleOutK()">Out K<br><b>5sec Auto</b></button>
-        <button class="K" onclick="toggleNoOutK()">No Out K<br><b>5sec Auto</b></button>
-        <button class="homerun" onclick="toggleHomrun()">Home-run<br><b>3sec Auto</b></button>
-        <button class="homerun" onclick="toggle2Homrun()">2-Home-run<br><b>3sec Auto</b></button>
-        <button class="homerun threehomerun" onclick="toggle3Homrun()">3-Home-run<br><b>3sec Auto</b></button>
+      <hr class="line"></hr>
+      <div class="teams">
+        <p class="pstart away">AWAY</p>
+        <input type="number" id="Away-sc" value="0" min="0">
+        <input type="text" id="Away-tn" class="teamname" placeholder="Away">
+        <p>:</p>
+        <input type="text" id="Home-tn" class="teamname"placeholder="Home">
+        <input type="number" id="Home-sc" value="0" min="0">
+        <p class="pend">HOME</p>
       </div>
-      <h1 class="title">Event Log</h1>
-      <div id="logArea">
-        <p></p>
+      <button id="TeamNameAlert" class="alert btnfull">
+        <p>팀명을 입력하세요</p>
+      </button>
+      <div class="teams margintop">
+        <p class="pstart">Player</p>
+        <input type="text" id="AwayPlayer" class="player" placeholder="Away">
+        <p>P:</p>
+        <input type="number" id="AwayPitch">
+        <p>:</p>
+        <p>Player</p>
+        <input type="text" id="HomePlayer" class="player" placeholder="Home">
+        <p>P:</p>
+        <input type="number" id="HomePitch" class="inputend">
       </div>
+      <hr class="line"></hr>
+      <div class="teams">
+        <p class="pstart">INNING</p>
+        <input type="number" id="InningCount" value="0" min="0">
+        <select class="inning" id="InningTBSelect">
+          <option value="Top">Top</option>
+          <option value="Btm">Btm</option>
+        </select>
+        <p>B</p>
+        <input type="number" id="BallCount" value="0" min="0">
+        <p>S</p>
+        <input type="number" id="StrikeCount" value="0" min="0">
+        <button class="btn100px" onclick="toggleBSReset()">B/S Reset</button>
+        <p>O</p>
+        <input type="number" id="OutCount" class="inputend" value="0" min="0">
+      </div>
+      <button class="btnfull" id="UpdateBtn" onclick="toggleUpdate()">UPDATE</button>
+      <hr class="line"></hr>
+      <div class="map">
+        <img src="/src/img/map.png">
+        <button class="base base3" onclick="toggleBase3()"></button>
+        <button class="base base2" onclick="toggleBase2()"></button>
+        <button class="base base1" onclick="toggleBase1()"></button>
+      </div>
+      <div class="teams margintop">
+        <button class="btn100px btnstart" onclick="toggleOutK()">Out K<br><b>5sec Auto</b></button>
+        <button class="btn100px" onclick="toggleNoOutK()">No Out K<br><b>5sec Auto</b></button>
+        <button class="btn110px" onclick="toggleHomrun()">Home Run<br><b>5sec Auto</b></button>
+        <button class="btn110px" onclick="toggle2Homrun()">2Home Run<br><b>5sec Auto</b></button>
+        <button class="btn110px btnend" onclick="toggle3Homrun()">3Home Run<br><b>5sec Auto</b></button>
+      </div>
+      <div class="logarea margintop" id="logArea"><p></p></div>
     </div>
     <div class="side">
-      <div class="playerblock">
-        <p class="pstart playerp">AWAY Player</p>
-        <input type="text" id="awayPlayer" placeholder="Away Player">
-        <p>P</p>
-        <input type="number" id="awayPitchCount">
-        <p></p>
-        <p class="playerp">HOME Player</p>
-        <input type="text" id="homePlayer" placeholder="Home Player">
-        <p>P</p>
-        <input type="number" id="homePitchCount">
-        <button class="btn50px btnend" id="updateBtn" onclick="playerChange()">UP</button>
-      </div>
     </div>
   </div>
 </body>

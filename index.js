@@ -14,7 +14,7 @@ let serverProcess;
 function createWindow() {
   mainWindow = new BrowserWindow({
     width: 1280,
-    height: 775,
+    height: 800,
     resizable: false,
     autoHideMenuBar: true,
     icon: path.join(__dirname, 'src/icon/wspnicon.ico'),
@@ -33,9 +33,7 @@ function createWindow() {
   // 단축키로 새로고침 (F5, Ctrl+R, Cmd+R)
   mainWindow.webContents.on('before-input-event', (event, input) => {
     if (
-      (input.key === 'F5') ||
-      (input.key.toLowerCase() === 'r' && input.control) ||
-      (input.key.toLowerCase() === 'r' && input.meta)
+      (input.key === 'F5')
     ) {
       mainWindow.reload();
       event.preventDefault();

@@ -21,282 +21,201 @@ body{
 
 /*요소 기본값*/
 button{
-    height: 40px;
+    height: 35px;
     border-radius: 3px;
     border: none;
     background-color: #27C0A2;
-
     font-family: 'Paperlogy-8ExtraBold';
     font-size: 13px;
+
+    margin: auto 5px;
     cursor: pointer;
 }
-button>svg{
-    width: 20px;
-    margin: auto;
-}
-.btn50px{
-    width: 50px;
-}
-.btn80px{
-    width: 80px;
+button>b{
+    color: #ffffffd0;
+    font-size: 12px;
 }
 .btn100px{
     width: 100px;
 }
-.btn120px{
-    width: 120px;
+.btn110px{
+    width: 111px;
 }
-.btn140px{
-    width: 140px;
+.btnfull{
+    width: 100%;
+    margin: 10px 0 0 0;
 }
-.btn160px{
-    width: 160px;
-}
+
 .btnstart{
-    margin: auto auto auto 0px;
+    margin: auto 5px auto 0px;
 }
 .btnend{
-    margin: auto 0px auto auto;
+    margin: auto 0px auto 5px;
 }
 
-input[type="text"], input[type="number"], select{
-    height: 30px;
-    font-family: 'Paperlogy-8ExtraBold';
-    font-size: 13px;
-    text-align: center;
-    margin: auto 5px;
-}
-input[type="text"]{
-    width: 50px;
-}
-input[type="number"]{
-    width: 40px;
-}
-option{
-    font-family: 'Paperlogy-8ExtraBold';
-    font-size: 15px;
+.line{
+    width: 100%;
+    margin: 10px 0;
+    border: 1px solid #27C0A2;
 }
 
-.pstart{
-    margin-left: 0 !important;
-}
 p{
     font-family: 'Paperlogy-8ExtraBold';
-    font-size: 13px;
-    color: #1A8B7D;
+    font-size: 15px;
+    color: #000;
+    margin: auto 5px;
+}
+.pstart{
+    margin: auto 5px auto 0;
+}
+.pend{
+    margin: auto 0 auto 5px;
+}
+
+input{
+    height: 35px;
+    background-color: #F0F0F0;
+    font-family: 'Paperlogy-8ExtraBold';
+    color: #000;
+    text-align: center;
+    font-size: 15px;
+    border-radius: 3px;
+    border: none;
+    margin: auto 5px;
+}
+.inputstart{
+    margin: auto 5px auto 0;
+}
+.inputend{
+    margin: auto 0 auto 5px;
+}
+input[type="number"]{
+    width: 50px;
+}
+
+select{
+    height: 35px;
+    width: 75px;
+    background-color: #F0F0F0;
+    font-family: 'Paperlogy-8ExtraBold';
+    color: #000;
+    text-align: center;
+    font-size: 15px;
+    border-radius: 3px;
+    border: none;
+    margin: auto 5px;
+}
+
+
+.margintop{
+    margin-top: 10px;
+}
+.marginbtm{
+    margin-bottom: 10px;
 }
 
 /*UI 기본값*/
 .full{
     width: 100%;
+    height: 800px;
     display: flex;
-}
-
-.top{
-    width: 100%;
-    height: 60px;
-    background-color: #131313;
-    display: flex;
-}
-.top>img{
-    height: 60%;
-    margin: auto 20px;
-}
-.top>h1{
-    font-size: 25px;
-    color: #27C0A2;
-    margin: auto 0px;
-}
-.topline{
-    width: 4px;
-    height: 40%;
-    margin: auto 10px;
-    background-color: #27C0A2;
-}
-.top>p{
-    font-size: 25px;
-    color: #fff;
-    margin: auto 0px;
-}
-.dsk_open, .guide{
-    width: 100px;
-    border: none;
-    border-radius: 3px;
-    margin: auto 10px auto 0;
-
-    font-size: 15px;
-    color: #fff;
-}
-.guide{
-    margin: auto 10px auto auto;
-}
-.dsk_open:hover, .guide:hover{
-    background-color: #1A8B7D;
-    transition: all 0.3s ease-in-out;
-    cursor: pointer;
-}
+}    
 
 .side{
-    width: 47%;
-    margin: 20px;
+    width: 50%;
+    height: 680px;
+    margin: 30px;
 }
 
 
 /*left side*/
 
-/*코더 첫줄*/
-.coder-ctrl{
+/*dsk control*/
+.coder_dsk{
     width: 100%;
+    height: 40px;
     display: flex;
 }
-
-.coder-status{
-    width: 100px;
+.coder_state{
+    height: 35px;
+    background-color: #1E1E1E;
     border-radius: 3px;
-    border: none;
-    background-color: #131313;
-    margin: auto 10px;
-
-    color: #fff;
-    padding: 10.6px 0px;
-    text-align: center;
-    cursor: pointer;
-}
-
-.coder-ctrl>p{
+    display: flex;
     margin: auto 5px;
 }
-/*코더 두번째줄*/
-.second{
-    margin: 10px 0;
+.coder_state>p{
+    font-family: 'Paperlogy-8ExtraBold';
+    font-size: 15px;
+    color: #fff;
+    margin: auto;
+}
+.dsk_ctrl{
+    height: 100%;
+    margin: auto 0 auto auto;
+    display: flex;
 }
 
-/*베이스*/
+.teams{
+    width: 100%;
+    height: 40px;
+    display: flex;
+}
+.teamname{
+    width: 145px;
+}
+.away{
+    width: 50px;
+}
+.player{
+    width: 121px;
+}
+
+.alert{
+    display: none;
+}
+
 .map{
     width: 100%;
-    display: flex;
-    margin: 10px 0px;
-    border-radius: 5px;
+    height: 230px;
     overflow: hidden;
+    border-radius: 3px;
+    display: flex;
 }
 .map>img{
     width: 100%;
-    position: relative;
 }
-.basebtn{
-    width: 0;
-    height: 0;
-    rotate: 45deg;
-    padding: 16px;
-    background-color: #c7c7c7;
-    border: none;
-    cursor: pointer;
-    margin: auto;
-}
-.base2{
-    margin: 35px 281px;
+.base{
+    width: 30px;
+    height: 30px;
+    background-color: #dbdbdb;
     position: absolute;
     z-index: 1;
-}
-.base2-3-block{
-    width: 45%;
-    position: absolute;
-    display: flex;
-    margin-top: 173.3px;
-    z-index: 2;
-}
-.base3{
-    margin-left: 64.3px;
+    rotate: 45deg;
 }
 .base1{
-    margin-right: 39.5px;
+    margin: 33px 271.5px;
+}
+.base2{
+    margin: 161px 63px;
+}
+.base3{
+    margin: 161px 480px;
 }
 
-/*K, 홈런*/
-.state{
+.logarea{
     width: 100%;
-    display: flex;
-    margin: 10px 0;
-}
-.K{
-    width: 130px;
-    font-size: 13px;
-    color: #fff;
-    border: none;
-    margin: auto 10px auto 0;
-}
-.homerun{
-    width: 160px;
-    font-size: 13px;
-    color: #fff;
-    margin: auto 10px auto 0;
-}
-.threehomerun{
-    margin-right: 0;
-}
-
-.K>b, .homerun>b{
-    color: #ffffffd3;
-    font-size: 13px;
-}
-
-.matchstate{
-    width: 88px;
-    height: 35px;
-    display: flex;
-}
-
-/*로그*/
-.title{
-    font-size: 20px;
-    color: #27C0A2;
-    margin: 0px;
-}
-#logArea{
-    width: 100%;
-    height: 200px;
+    height: 130px;
+    background-color: #F0F0F0;
+    border-radius: 3px;
     overflow-y: scroll;
-    margin: 5px 0;
-    background-color: #e9e9e9;
-    border-radius: 5px;
 }
-#logArea::-webkit-scrollbar{
-    width: 10px;
-}
-#logArea::-webkit-scrollbar-button{
-    display: none;
-}
-#logArea::-webkit-scrollbar-track{
-    background: #e9e9e9;
-    border-radius: 5px;
-}
-#logArea::-webkit-scrollbar-thumb{
-    background: #27C0A2;
-    border-radius: 5px;
-}
-#logArea>p{
-    width: 98%;
-    word-wrap: break-word;
-    font-family: 'Paperlogy-3SemiBold';
-    font-size: 15px;
-    margin: 5px;
-}
-
-
-/*right side*/
-
-/*플레이어(타자, 투수)*/
-.playerblock{
-    width: 100%;
-    display: flex;
-}
-.playerblock>p{
+.logarea>p{
+    font-family: 'Paperlogy-8ExtraBold';
+    font-size: 13px;
     color: #27C0A2;
-    margin: auto 5px;
+    margin: 10px;
 }
-.playerp{
-    width: 45px;
+.logarea::-webkit-scrollbar{
+    width: 5px;
 }
-.playerblock>input[type="text"]{
-    width: 115px;
-}
+/*right side*/
