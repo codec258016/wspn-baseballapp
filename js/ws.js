@@ -1,4 +1,3 @@
-
 const ws = new WebSocket('ws://localhost:5001'); // 전역에 한 번만 선언
 
 ws.onopen = () => {
@@ -155,7 +154,7 @@ function toggleUpdate() {
 
   if(AwayTn === '' || HomeTn === '') {
     if (ws.readyState === WebSocket.OPEN) {
-      const msg = '';
+      const msg = 'Team Name is Empty! Please Insert Team Name';
       ws.send(msg);
     }
   } else {
@@ -290,5 +289,32 @@ function toggle3Homrun() {
   if (ws.readyState === WebSocket.OPEN) {
     const msg = '3homerun-on';
     ws.send(msg);
+  }
+}
+
+
+function togglesheetSet() {
+  const sheetSet = document.querySelector('#sheetSet');
+  const button = document.querySelector('#sheetSetbtn');
+
+  if (sheetSet.style.display === 'block') {
+    sheetSet.style.display = 'none';
+    button.style.backgroundColor = '';
+  } else {
+    sheetSet.style.display = 'block';
+    button.style.backgroundColor = '#27C0A2';
+  }
+}
+
+function toggleinfo() {
+  const info = document.querySelector('#info');
+  const button = document.querySelector('#infobtn');
+
+  if (info.style.display === 'block') {
+    info.style.display = 'none';
+    button.style.backgroundColor = '';
+  } else {
+    info.style.display = 'block';
+    button.style.backgroundColor = '#27C0A2';
   }
 }

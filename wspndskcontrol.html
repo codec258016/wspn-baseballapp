@@ -4,7 +4,8 @@
   <meta charset="UTF-8">
   <link rel="icon" href="src/icon/wspnicon.ico">
   <title>WSPN DSK CONTROL</title>
-  <script src="js/control.js"></script>
+  <script src="js/sheet.js"></script>
+  <script src="js/ws.js"></script>
   <link rel="stylesheet" href="css/control.css" />
 </head>
 <body>
@@ -22,30 +23,27 @@
       <div class="teams">
         <p class="pstart away">AWAY</p>
         <input type="number" id="Away-sc" value="0" min="0">
-        <input type="text" id="Away-tn" class="teamname" placeholder="Away">
+        <select class="teamname" id="Away-tn"></select>
         <p>:</p>
-        <input type="text" id="Home-tn" class="teamname"placeholder="Home">
+        <select class="teamname" id="Home-tn"></select>
         <input type="number" id="Home-sc" value="0" min="0">
         <p class="pend">HOME</p>
       </div>
-      <button id="TeamNameAlert" class="alert btnfull">
-        <p>팀명을 입력하세요</p>
-      </button>
       <div class="teams margintop">
         <p class="pstart">Player</p>
-        <input type="text" id="AwayPlayer" class="player" placeholder="Away">
+        <select id="AwayPlayer" class="player" placeholder="Away"></select>
         <p>P:</p>
         <input type="number" id="AwayPitch">
         <p>:</p>
         <p>Player</p>
-        <input type="text" id="HomePlayer" class="player" placeholder="Home">
+        <select id="HomePlayer" class="player" placeholder="Home"></select>
         <p>P:</p>
         <input type="number" id="HomePitch" class="inputend">
       </div>
       <hr class="line"></hr>
       <div class="teams">
         <p class="pstart">INNING</p>
-        <input type="number" id="InningCount" value="0" min="0">
+        <input type="number" id="InningCount" value="1" min="1">
         <select class="inning" id="InningTBSelect">
           <option value="Top">Top</option>
           <option value="Btm">Btm</option>
@@ -75,7 +73,52 @@
       </div>
       <div class="logarea margintop" id="logArea"><p></p></div>
     </div>
-    <div class="side">
+    <div class="side2">
+    </div>
+
+    <div class="popup" id="sheetSet">
+      <img src="/src/img/googlecloudapi.png" class="popupimg">
+      <hr class="line" style="width: 97%; margin: 10px auto;"></hr>
+      <p><b>Google API Key</b><br>
+        <input type="text" id="sheetAPI" class="inputstart sheetinput" placeholder="API Key" value=""><br><br><br>
+        
+        <b>Google Sheet ID</b><br>
+        <input type="text" id="sheetID" class="inputstart sheetinput" placeholder="Sheet ID" value=""><br>
+      </p>
+      <div class="confirm">
+        <button class="btn100px loadAllSheets" onclick="SheetLoad()">불러오기</button><p id="loadStatus"></p>
+      </div>
+        
+      
+    </div>
+
+    <div class="popup" id="info">
+        <img src="/src/img/wspnlogo.png" class="popupimg">
+        <hr class="line" style="width: 97%; margin: 10px auto;"></hr>
+        <p><b>LICENCE</b><br>
+          APP Licence - GPL-3.0 License<br>
+          Resource Licence - CC BY 4.0 License<br><br>
+
+          <b>NOTICE</b><br>
+          코더에 포함된 리소스(삼진, 홈런 애니메이션)는 경기 테마에 따라 제시된 가이드에 맟줘 변경하여 사용하는것을 권장합니다.<br>
+          기본으로 제공되는 리소스는 코오데엑에게 저작권이 있으며, 별도로 사용범위에 제한을 두지 않습니다.<br><br>
+
+          <b>APP VERSION</b><br>
+          0.0.0-1f<br><br>
+        </p>
+    </div>
+
+    <div class="tap">
+      <button class="tapbtn"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.325.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 0 1 1.37.49l1.296 2.247a1.125 1.125 0 0 1-.26 1.431l-1.003.827c-.293.241-.438.613-.43.992a7.723 7.723 0 0 1 0 .255c-.008.378.137.75.43.991l1.004.827c.424.35.534.955.26 1.43l-1.298 2.247a1.125 1.125 0 0 1-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.47 6.47 0 0 1-.22.128c-.331.183-.581.495-.644.869l-.213 1.281c-.09.543-.56.94-1.11.94h-2.594c-.55 0-1.019-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 0 1-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 0 1-1.369-.49l-1.297-2.247a1.125 1.125 0 0 1 .26-1.431l1.004-.827c.292-.24.437-.613.43-.991a6.932 6.932 0 0 1 0-.255c.007-.38-.138-.751-.43-.992l-1.004-.827a1.125 1.125 0 0 1-.26-1.43l1.297-2.247a1.125 1.125 0 0 1 1.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.086.22-.128.332-.183.582-.495.644-.869l.214-1.28Z" />
+        <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+      </svg>
+      </button>
+      <button class="tapbtn" id="sheetSetbtn" onclick="togglesheetSet()"><img src="/src/img/sheet.png"></button>
+      <button class="tapbtn" id="infobtn" onclick="toggleinfo()"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+        <path stroke-linecap="round" stroke-linejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
+      </svg>
+      </button>
     </div>
   </div>
 </body>

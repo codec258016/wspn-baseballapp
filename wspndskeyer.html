@@ -131,12 +131,12 @@
           document.getElementById('awayPitchCount').innerText =
           data.payload.AwayPitch && data.payload.AwayPitch.trim() !== ''
             ? 'P. ' + data.payload.AwayPitch
-            : BallCount + ' - ' + StrikeCount;
+            : '';
           document.getElementById('homePlayer').innerText = data.payload.HomePlayer;
           document.getElementById('homePitchCount').innerText =
           data.payload.HomePitch && data.payload.HomePitch.trim() !== ''
             ? 'P. ' + data.payload.HomePitch
-            : BallCount + ' - ' + StrikeCount;
+            : '';
 
           //카운트
           document.getElementById('ballCount').innerText = data.payload.BallCount;

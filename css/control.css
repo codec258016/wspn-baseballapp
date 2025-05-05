@@ -121,14 +121,12 @@ select{
     display: flex;
 }    
 
+/*left side*/
 .side{
     width: 50%;
     height: 680px;
-    margin: 30px;
+    margin: 30px 30px 0 30px;
 }
-
-
-/*left side*/
 
 /*dsk control*/
 .coder_dsk{
@@ -161,7 +159,7 @@ select{
     display: flex;
 }
 .teamname{
-    width: 145px;
+    width: 150px;
 }
 .away{
     width: 50px;
@@ -210,12 +208,80 @@ select{
     overflow-y: scroll;
 }
 .logarea>p{
+    width: 540px;
     font-family: 'Paperlogy-8ExtraBold';
     font-size: 13px;
     color: #27C0A2;
     margin: 10px;
+    word-wrap: break-word;
 }
 .logarea::-webkit-scrollbar{
     width: 5px;
 }
 /*right side*/
+.side2{
+    width: calc(50% - 30px);
+    height: 700px;
+    margin: 30px 30px 30px 0;
+}
+
+/*tap*/
+.popup{
+    width: 1140px;
+    height: 700px;
+    background-color: #F0F0F0;
+    border-radius: 3px;
+    position: fixed;
+    z-index: 3;
+    margin: 30px 30px;
+    display: none;
+}
+.popup>img{
+    height: 60px;
+    margin: 30px 0 0 30px;
+}
+.popup>p{
+    width: 1070px;
+    font-family: 'Paperlogy-6SemiBold';
+    padding: 10px 30px;
+    word-wrap: break-word;
+}
+.popup>p>b{
+    font-family: 'Paperlogy-8ExtraBold';
+    font-size: 20px;
+}
+
+.sheetinput{
+    width: 50%;
+    margin-top: 10px;
+    text-align: start;
+    border-bottom: solid 3px #27C0A2;
+    border-radius: 0px;
+}
+.sheetinput:focus{
+    outline: none;
+    border-bottom: solid 3px #FFBA00;
+}
+.loadAllSheets{
+    margin-left: 0px;
+}
+.confirm{
+    margin-left: 35px;
+    display: flex;
+}
+
+.tap{
+    width: 60px;
+    height: 100%;
+    background-color: #F0F0F0;
+}
+.tapbtn{
+    width: 40px;
+    height: 40px;
+    background-color: #dbdbdb;
+    border-radius: 3px;
+    margin: 10px 10px 0 10px;
+}
+.tapbtn>svg, .tapbtn>img{
+    width: 100%;
+}
