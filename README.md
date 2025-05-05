@@ -13,14 +13,14 @@
 
 ## **실행 전 (송출단계)**##
 
-   OBS
+1. OBS
    > 소스 선택 > 부리우저 > URL 칸에 http://localhost:5001/wspndskeyer.html
    >
    > 너비: 1920, 높이: 1080 입력 후 확인
    >
    > (사용자 지정 css칸은 기본값)
    
-   Vmix
+2. Vmix
    > Add input > Web Browser > URL 칸에 http://localhost:5001/wspndskeyer.html
    >
    > width: 1920, height: 1080 입력 후 OK
