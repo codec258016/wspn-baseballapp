@@ -165,7 +165,7 @@ select{
     width: 50px;
 }
 .player{
-    width: 121px;
+    width: 125px;
 }
 
 .alert{
@@ -191,10 +191,10 @@ select{
     rotate: 45deg;
 }
 .base1{
-    margin: 33px 271.5px;
+    margin: 161px 63px;
 }
 .base2{
-    margin: 161px 63px;
+    margin: 33px 271.5px;
 }
 .base3{
     margin: 161px 480px;

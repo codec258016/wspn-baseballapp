@@ -104,43 +104,51 @@ function handleCopy() {
 };
 
 //코더 데이터 업데이트
-function toggleUpdate() {
-  //팀명/점수
+async function toggleUpdate() {
+  const sheetId = document.getElementById('sheetID').value.trim();
+  const apiKey = document.getElementById('sheetAPI').value.trim();
+  const awaySheet = document.getElementById('Away-tn').value.trim();
+  const homeSheet = document.getElementById('Home-tn').value.trim();
+
   const AwaySc = document.getElementById('Away-sc').value.trim();
-  const AwayTn = document.getElementById('Away-tn').value.trim();
-  const HomeTn = document.getElementById('Home-tn').value.trim();
   const HomeSc = document.getElementById('Home-sc').value.trim();
 
-  //플레이어/피칭
   const AwayPlayer = document.getElementById('AwayPlayer').value.trim();
   const AwayPitch = document.getElementById('AwayPitch').value.trim();
   const HomePlayer = document.getElementById('HomePlayer').value.trim();
   const HomePitch = document.getElementById('HomePitch').value.trim();
 
-  //카운트
   const InningCount = document.getElementById('InningCount').value.trim();
   const InningTBSelect = document.getElementById('InningTBSelect').value.trim();
   const BallCount = document.getElementById('BallCount').value.trim();
   const StrikeCount = document.getElementById('StrikeCount').value.trim();
   const OutCount = document.getElementById('OutCount').value.trim();
 
-  /*if (awayTeam === '' || homeTeam === '') {
-    const msg = '[Warn] TEAM NAME EMTY! Please Insert Team Name';
-    ws.send(msg);
-  return;
-  }*/
+  let AwayAVG = '';
+  let HomeAVG = '';
+
+  if (!AwayPitch && AwayPlayer) {
+    const name = extractName(AwayPlayer);
+    AwayAVG = await getPlayerAVG(sheetId, apiKey, awaySheet, name) || '';
+  }
+  if (!HomePitch && HomePlayer) {
+    const name = extractName(HomePlayer);
+    HomeAVG = await getPlayerAVG(sheetId, apiKey, homeSheet, name) || '';
+  }
 
   const message = {
     type: 'DataUpdate',
     payload: {
       AwaySc,
-      AwayTn,
-      HomeTn,
+      AwayTn: awaySheet,
+      HomeTn: homeSheet,
       HomeSc,
       AwayPlayer,
       AwayPitch,
+      AwayAVG,
       HomePlayer,
       HomePitch,
+      HomeAVG,
       InningCount,
       InningTBSelect,
       BallCount,
@@ -149,20 +157,45 @@ function toggleUpdate() {
     }
   };
 
-  // ✅ 버튼 색 원상 복구
   document.getElementById('UpdateBtn').style.backgroundColor = '';
 
-  if(AwayTn === '' || HomeTn === '') {
-    if (ws.readyState === WebSocket.OPEN) {
-      const msg = 'Team Name is Empty! Please Insert Team Name';
-      ws.send(msg);
-    }
+  if (!awaySheet || !homeSheet) {
+    const msg = 'Team Name is Empty! Please Insert Team Name';
+    ws.send(msg);
   } else {
-    if (ws.readyState === WebSocket.OPEN) {
-      ws.send(JSON.stringify(message));
-    }
+    ws.send(JSON.stringify(message));
   }
 }
+
+// 선수 이름에서 이름만 추출 (예: "17. 오타니" → "오타니")
+function extractName(playerValue) {
+  const parts = playerValue.split('. ');
+  return parts.length === 2 ? parts[1] : playerValue;
+}
+
+// 시트에서 AVG 값 가져오기
+async function getPlayerAVG(sheetId, apiKey, sheetName, playerName) {
+  const range = encodeURIComponent(`${sheetName}!A3:K`);
+  const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${range}?key=${apiKey}`;
+
+  try {
+    const response = await fetch(url);
+    if (!response.ok) throw new Error(`시트 조회 실패 (${response.status})`);
+    const data = await response.json();
+
+    for (const row of data.values || []) {
+      const name = row[2]?.trim(); // C열 = 이름
+      const avg = row[10]; // K열 = AVG
+
+      if (name === playerName && avg) return avg;
+    }
+    return null;
+  } catch (err) {
+    console.error('getPlayerAVG error:', err);
+    return null;
+  }
+}
+
 
 //업데이트 버튼 강조
 document.addEventListener('DOMContentLoaded', () => {
@@ -202,119 +235,104 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 /*베이스 ON/OFF*/
-let isBase1On = false;
+// 베이스 상태를 추적할 객체
+const baseState = {
+  base1: false,
+  base2: false,
+  base3: false
+};
 
-function toggleBase1() {
-  const button = document.querySelector('.base1');
+/**
+ * 베이스 버튼 상태 토글 함수
+ * @param {string} baseName
+ */
+function toggleBase(baseName) {
+  const button = document.querySelector(`.${baseName}`);
 
   if (ws.readyState === WebSocket.OPEN) {
-    const msg = isBase1On ? 'base1-off' : 'base1-on';
+    const isOn = baseState[baseName];
+    const msg = isOn ? `${baseName}-off` : `${baseName}-on`;
+
     ws.send(msg);
     console.log(msg);
-    button.style.backgroundColor = isBase1On ? '#dbdbdb' : '#27C0A2';
-    isBase1On = !isBase1On;
+
+    button.style.backgroundColor = isOn ? '#dbdbdb' : '#27C0A2';
+    baseState[baseName] = !isOn;
   } else {
-    const msg = '[Warn] WebSocket is not connected yet!';
-    ws.send(msg);
+    console.warn('[WS] 연결되지 않음: WebSocket is not connected yet!');
   }
 }
 
-let isBase2On = false;
+// 각각의 토글 함수는 이렇게 간단하게 유지
+function toggleBase1() {
+  toggleBase('base1');
+}
 
 function toggleBase2() {
-  const button = document.querySelector('.base2');
-
-  if (ws.readyState === WebSocket.OPEN) {
-    const msg = isBase2On ? 'base2-off' : 'base2-on';
-    ws.send(msg);
-    console.log(msg);
-    button.style.backgroundColor = isBase2On ? '#dbdbdb' : '#27C0A2';
-
-    isBase2On = !isBase2On;
-  } else {
-    const msg = '[Warn] WebSocket is not connected yet!';
-    ws.send(msg);
-  }
+  toggleBase('base2');
 }
-
-let isBase3On = false;
 
 function toggleBase3() {
-  const button = document.querySelector('.base3');
+  toggleBase('base3');
+}
 
+
+/**
+ * 애니메이션 재생 버튼
+ * @param {string} message
+ */
+function sendWSMessage(message) {
   if (ws.readyState === WebSocket.OPEN) {
-    const msg = isBase3On ? 'base3-off' : 'base3-on';
-    ws.send(msg);
-    console.log(msg);
-    button.style.backgroundColor = isBase3On ? '#dbdbdb' : '#27C0A2';
-
-    isBase3On = !isBase3On;
+    ws.send(message);
   } else {
-    const msg = '[Warn] WebSocket is not connected yet!';
-    ws.send(msg);
+    console.warn('WebSocket이 열려있지 않습니다.');
   }
 }
 
-/*out K*/
+// 각각의 동작을 메시지만 지정해서 호출
 function toggleOutK() {
-  if (ws.readyState === WebSocket.OPEN) {
-    const msg = 'outk-on';
-    ws.send(msg);
-  }
+  sendWSMessage('outk-on');
 }
-/*no out K*/
+
 function toggleNoOutK() {
-  if (ws.readyState === WebSocket.OPEN) {
-    const msg = 'no-outk-on';
-    ws.send(msg);
-  }
+  sendWSMessage('no-outk-on');
 }
 
-/*home run*/
-function toggleHomrun() {
-  if (ws.readyState === WebSocket.OPEN) {
-    const msg = 'homerun-on';
-    ws.send(msg);
-  }
-}
-/*2home run*/
-function toggle2Homrun() {
-  if (ws.readyState === WebSocket.OPEN) {
-    const msg = '2homerun-on';
-    ws.send(msg);
-  }
-}
-/*3home run*/
-function toggle3Homrun() {
-  if (ws.readyState === WebSocket.OPEN) {
-    const msg = '3homerun-on';
-    ws.send(msg);
-  }
+function toggleHomerun() {
+  sendWSMessage('homerun-on');
 }
 
+function toggle2Homerun() {
+  sendWSMessage('2homerun-on');
+}
 
-function togglesheetSet() {
-  const sheetSet = document.querySelector('#sheetSet');
-  const button = document.querySelector('#sheetSetbtn');
+function toggle3Homerun() {
+  sendWSMessage('3homerun-on');
+}
 
-  if (sheetSet.style.display === 'block') {
-    sheetSet.style.display = 'none';
+/**
+ * Table의 콘텐츠를 토글하는 함수
+ * @param {string} contentSelector
+ * @param {string} buttonSelector
+ */
+function toggleDisplay(contentSelector, buttonSelector) {
+  const content = document.querySelector(contentSelector);
+  const button = document.querySelector(buttonSelector);
+
+  if (content.style.display === 'block') {
+    content.style.display = 'none';
     button.style.backgroundColor = '';
   } else {
-    sheetSet.style.display = 'block';
+    content.style.display = 'block';
     button.style.backgroundColor = '#27C0A2';
   }
+}
+
+// 기존 함수는 이렇게 재정의
+function togglesheetSet() {
+  toggleDisplay('#sheetSet', '#sheetSetbtn');
 }
 
 function toggleinfo() {
-  const info = document.querySelector('#info');
-  const button = document.querySelector('#infobtn');
-
-  if (info.style.display === 'block') {
-    info.style.display = 'none';
-    button.style.backgroundColor = '';
-  } else {
-    info.style.display = 'block';
-    button.style.backgroundColor = '#27C0A2';
-  }
+  toggleDisplay('#info', '#infobtn');
 }
