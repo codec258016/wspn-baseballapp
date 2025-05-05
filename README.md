@@ -1,4 +1,4 @@
-##**실행 전 (구글 API 및 시트)**
+##**실행 전 (구글 API 및 시트)**##
 1. 구글 API키 발급 (API가 있는 경우 스킵)
    > https://cloud.google.com/apis?hl=ko > 콘솔
    >
@@ -11,19 +11,19 @@
    >
    > 가이드와 같은 양식으로 시트 생성 및 선수 데이터 입력
 
-##**실행 전 (송출단계)**
+##**실행 전 (송출단계)**##
 
-OBS
-   > 소스 선택 > 부리우저 > URL 칸에 http://localhost:5001/wspndskeyer.html
-   >
-   > 너비: 1920, 높이: 1080 입력 후 확인
-   >
-   > (사용자 지정 css칸은 기본값)
+   OBS
+      > 소스 선택 > 부리우저 > URL 칸에 http://localhost:5001/wspndskeyer.html
+      >
+      > 너비: 1920, 높이: 1080 입력 후 확인
+      >
+      > (사용자 지정 css칸은 기본값)
    
-Vmix
-   > Add input > Web Browser > URL 칸에 http://localhost:5001/wspndskeyer.html
-   >
-   > width: 1920, height: 1080 입력 후 OK
+   Vmix
+      > Add input > Web Browser > URL 칸에 http://localhost:5001/wspndskeyer.html
+      >
+      > width: 1920, height: 1080 입력 후 OK
 
 ##**실행 전 (APP)**
 
