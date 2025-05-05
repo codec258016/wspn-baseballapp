@@ -1,106 +1,45 @@
-## **현재 지원 기능**
+##**실행 전 (구글 API 및 시트)**
+1. 구글 API키 발급 (API가 있는 경우 스킵)
+   > https://cloud.google.com/apis?hl=ko > 콘솔
+   >
+   > 처음 사용자는 약관 동의 > 프로젝트 선택 > 프로젝트 생성 > https://cloud.google.com/apis?hl=ko 재접속
+   >
+   > API 및 서비스 > 사용자 인증정보 > 사용자 인증정보 만들기 > API 키 선택 > 키 생성
 
-코더 (우상단)
+2. 구글 시트 생성 (가이드 참고)
+   > 가이드 시트: https://docs.google.com/spreadsheets/d/1t2z8hrS5EOiGHZAXZgt_tNqsOJXZa-S28kb7aH3ZLhE/edit?usp=sharing
+   >
+   > 가이드와 같은 양식으로 시트 생성 및 선수 데이터 입력
 
-> 팀명 및 점수
+##**실행 전 (송출단계)**
+OBS
+   > 소스 선택 > 부리우저 > URL 칸에 http://localhost:5001/wspndskeyer.html
+   >
+   > 너비: 1920, 높이: 1080 입력 후 확인
+   >
+   > (사용자 지정 css칸은 기본값)
+   
+Vmix
+   > Add input > Web Browser > URL 칸에 http://localhost:5001/wspndskeyer.html
+   >
+   > width: 1920, height: 1080 입력 후 OK
 
-> 도루, 이닝(1회 초, 3회 말), 볼, 스트라이크, 아웃 카운트
-
-> 홈런, 삼진 애니메이션
-
-> CG가이드 (세이프티존)
-
-> 컨트롤러 새로고침(F5)
-
-> AWAY, HOME 플레이어 이름 및 투구 횟수
-
-## **설치 및 사용방법**
-
+##**실행 전 (APP)**
 압축 해제 후 WSPN-App.exe 실행
+   
+https://github.com/user-attachments/assets/ab087f45-14e0-4b78-8ff3-e9c59eff1171
 
-**OBS**
+1. API 키 및 시트 ID 입력
+   > 우측 탭에서 시트 선택 > 발급받은 API 키 입력
+   >
+   > https://cloud.google.com/apis?hl=ko > 콘솔 > 사용자 인증정보 > API 키 표시 > 복사 후 앱에 붙여넣기
+   >
+   > 구글 시트 링크 https://docs.google.com/spreadsheets/d/{시트 ID}/edit?gid=0#gid=0 에서
+   >
+   > {시트 ID} 복사 후 앱에 붙여넣기
+   >
+   > 불러오기
 
-> 소스 선택 > 부리우저 > URL 칸에 http://localhost:5000/wspndskeyer.html
+2. 실행(컨트롤러와 키어 동기화)
+   > 실사용 전 코더를 한번 실행해야 데이터 업데이트 및 애니메이션이 제대로 동작함
 
-> 너비: 1920, 높이: 1080 입력 후 확인
-
-> (사용자 지정 css칸은 기본값)
-
-**Vmix**
-
-> Add input > Web Browser > URL 칸에 http://localhost:5000/wspndskeyer.html
-
-> width: 1920, height: 1080 입력 후 OK
-
-**컨트롤러 문제 발생 시**
-
-> F5키를 눌러 새로고침 가능
-
-### **실사용 전, WSPN DSK CONTROL에서 CODER버튼을 클릭해 실행해야 정상적으로 이용 가능**
-
-**코더 사용방법**
-
-![image](https://github.com/user-attachments/assets/e623e97f-d915-4292-bb50-9040c04a5cc7)
-
-
-
-> 1열: CODER버튼을 통해 온, 오프 가능 (옆에 ON, OFF상태가 표시됨)
-
-> 2열: AWAY팀의 점수, 팀명 : HOME팀의 팀명, 점수 입력
->
-> 적용 결과
-
-![image](https://github.com/user-attachments/assets/e1dbbaa8-a7f1-49b2-a3b5-5ec5720738a6)
-
-> 3열 AWAY팀의 선수명 : HOME팀의 선수명 입력 P는 투구 횟수 (투수면 투구 숫자 입력, 타자면 공란으로 두면 됨)
-
-적용 결과
-
-![image](https://github.com/user-attachments/assets/fb4febed-238f-4aaf-b689-401d7f581b34)
-
-> 4열: 이닝 정보 (Top/Bottom은 회초, 회말을 의미), B(Ball)/S(Strike)/O(Out) 카운트
-
-적용 결과
-
-![image](https://github.com/user-attachments/assets/3b5d49d9-549c-4fb0-afed-3eb1947b77f0)
-
-내용 입력 후 UPDATE버튼을 누르면 코더에 적용됨
-
-베이스
-
-> 타자가 베이스로 진루한 위치를 클릭하면 별도 단계 없이 코더에 바로 적용
-
-적용 결과
-
-![image](https://github.com/user-attachments/assets/72b0f0d3-6c11-48f9-a030-0902771b5ca5)
-
-
-K, No Out K, HOMERUN
-
-> 상황에 맞는 버튼을 클릭하면 코더에 애니메이션이 재생됨
-
-적용 결과
-
-![image](https://github.com/user-attachments/assets/184773d0-7a13-4334-a367-c4302dc3106e)
-
-![image](https://github.com/user-attachments/assets/3d630db8-7302-412c-8fd5-83ff9bb0fd08)
-
-
-Event Log
-
-> 버튼 클릭 시 코더로 전송되는 메세지 및 오류 정보가 뜸
-
-## 로드맵
-단기 로드맵
-1. 코더의 아래 빈 공간에 투수 및 타자 정보 표시 제작
-2. css 최적화: class로 UI 요소 규격화 후html에서 class 두개 사용 (진행중)
-
-   > ex. class="coder-btn 15px"
-
-
-장기 로드맵
-1. 투수 및 타자 원샷 잡혔을 때 정보 표시 제작 (선수 프로필 및 각종 기록)
-
-
-기타
-1. 피그마 UI 제작 (css UI 규격화 연장선)
