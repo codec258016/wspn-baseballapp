@@ -12,6 +12,7 @@
    > 가이드와 같은 양식으로 시트 생성 및 선수 데이터 입력
 
 ##**실행 전 (송출단계)**
+
 OBS
    > 소스 선택 > 부리우저 > URL 칸에 http://localhost:5001/wspndskeyer.html
    >
@@ -25,6 +26,7 @@ Vmix
    > width: 1920, height: 1080 입력 후 OK
 
 ##**실행 전 (APP)**
+
 압축 해제 후 WSPN-App.exe 실행
    
 https://github.com/user-attachments/assets/ab087f45-14e0-4b78-8ff3-e9c59eff1171
