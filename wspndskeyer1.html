@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <link rel="icon" href="src/icon/wspnicon.ico">
+  <title>WSPN DSK</title>
+  <link rel="stylesheet" href="css/keyer1.css" />
+</head>
+<body>
+  <img class="guide" id="guide" src="src/img/guide.png">
+  <div id="coder">
+  </div>
+
+  <script>
+    const ws = new WebSocket('ws://localhost:5001');
+    let coderElement = null;
+    
+    // ✅ coder 생성 함수
+    function inject() {
+      const container = document.getElementById('coder');
+    
+      const div = document.createElement('div');
+      div.className = 'coder'; // 초기엔 fade-in 부여
+      div.innerHTML = `
+        <div class="tnsc">
+            <div class="away-tn"><p id="awayTeam">AWAY</p></div>
+            <div class="away-sc"><p id="awayScore">0</p></div>
+            <div class="home-tn"><p id="homeTeam">HOME</p></div>
+            <div class="home-sc"><p id="homeScore">0</p></div>
+            <div class="matchstate">
+                <div class="inning">
+                    <div class="top" id="top"></div>
+                    <div class="inningNum"><p id="inningNum">0</p></div>
+                    <div class="btm" id="btm"></div>
+                    <img class="icon" src="src/icon/wspnicon.ico">
+                </div>
+                <div class="base-out-block">
+                    <div class="base base2" id="base2"></div>
+                    <div class="base2-3-block">
+                        <div class="base base1" id="base1"></div>
+                        <div class="base base3" id="base3"></div>
+                    </div>
+                    <div class="out-block">
+                        <div class="out" id="out1"></div>
+                        <div class="out" id="out2"></div>
+                        <div class="out" id="out3"></div>
+                    </div>
+                    <div class="ball-strike-block">
+                        <p id="ballCount">0</p><p class="dash">-</p><p id="strikeCount">0</p>
+                    </div>
+                </div>
+            </div>
+            <div class="k">
+                <video id="outk" muted autoplay><source src="src/video/outk.mp4" type="video/mp4"></video>
+                <video id="noOutk" muted autoplay style="margin: -135;"><source src="src/video/nooutk.mp4" type="video/mp4"></video>
+            </div>
+            <div class="homerun">
+                <video id="homeRun" muted autoplay><source src="src/video/homerun.mp4" type="video/mp4"></video>
+                <video id="2homeRun" muted autoplay><source src="src/video/2homerun.mp4" type="video/mp4"></video>
+                <video id="3homeRun" muted autoplay><source src="src/video/3homerun.mp4" type="video/mp4"></video>
+            </div>
+        </div>
+        <div class="player">
+            <div class="awaypalyer">
+              <p class="playertext" id="awayPlayer"></p>
+              <p class="pitch" id="awayPitchCount"></p>
+            </div>
+            <div class="homeplayer">
+              <p class="playertext" id="homePlayer"></p>
+              <p class="pitch" id="homePitchCount"></p>
+            </div>
+        </div>
+      `;
+    
+      container.appendChild(div);
+
+      // ✅ 완전히 DOM에 붙은 후 클래스 부여 (애니메이션 트리거)
+      setTimeout(() => {
+        div.classList.add('coder-fade-in');
+      }, 100); // 최소 1프레임 딜레이 필요
+
+      coderElement = div;
+    }
+    
+    // ✅ 메시지 수신 처리
+    ws.onmessage = (event) => {
+      const msg = event.data;
+      const container = document.getElementById('coder');
+    
+      // coder-on: inject 실행
+      if (msg === 'coder-on') {
+        if (!coderElement) {
+          // 최초 1회 생성
+          inject(); 
+        } else {
+          coderElement.style.display = 'block';
+          void coderElement.offsetWidth;
+          coderElement.classList.remove('fade-out');
+          coderElement.classList.add('coder-fade-in');
+        }
+      }
+    
+      // coder-off: fade-out 후 제거
+      if (msg === 'coder-off') {
+        if (coderElement) {
+          coderElement.classList.remove('coder-fade-in');
+          coderElement.classList.add('fade-out');
+          
+          // 요소를 삭제하지 않고 숨기기만
+          setTimeout(() => {
+            coderElement.style.display = 'none'; // ❗삭제 아님
+          }, 500);
+        }
+      }
+      
+      //데이터 업데이트
+      try {
+        const data = JSON.parse(event.data);
+
+        if (data.type === 'DataUpdate') {
+          //팀명/점수
+          document.getElementById('awayTeam').innerText = data.payload.AwayTn;
+          document.getElementById('homeTeam').innerText = data.payload.HomeTn;
+          document.getElementById('awayScore').innerText = data.payload.AwaySc;
+          document.getElementById('homeScore').innerText = data.payload.HomeSc;
+
+          // 피칭 카운트가 비어있지 않은 경우에만 'P. ' 추가 
+          document.getElementById('awayPlayer').innerText = data.payload.AwayPlayer;
+          document.getElementById('awayPitchCount').innerText =
+          data.payload.AwayPitch && data.payload.AwayPitch.trim() !== ''
+            ? 'P. ' + data.payload.AwayPitch
+            : (data.payload.AwayAVG ? `${data.payload.AwayAVG}` : '');
+          document.getElementById('homePlayer').innerText = data.payload.HomePlayer;
+          document.getElementById('homePitchCount').innerText =
+          data.payload.HomePitch && data.payload.HomePitch.trim() !== ''
+            ? 'P. ' + data.payload.HomePitch
+            : (data.payload.HomeAVG ? `${data.payload.HomeAVG}` : '');
+
+          //카운트
+          document.getElementById('ballCount').innerText = data.payload.BallCount;
+          document.getElementById('strikeCount').innerText = data.payload.StrikeCount;
+          document.getElementById('inningNum').innerText = data.payload.InningCount;
+          const state = data.payload.InningTBSelect;
+          const top = document.getElementById('top');
+          const btm = document.getElementById('btm');
+
+          if (state === 'Top') {
+            top.style.borderBottom = 'calc( 8px * 1.732 ) solid #45ddbf';
+            btm.style.borderBottom = 'calc( 8px * 1.732 ) solid #156958';
+          } else if (state === 'Btm') {
+            top.style.borderBottom = 'calc( 8px * 1.732 ) solid #156958';
+            btm.style.borderBottom = 'calc( 8px * 1.732 ) solid #45ddbf';
+          } else {
+            top.style.borderBottom = 'calc( 8px * 1.732 ) solid #156958';
+            btm.style.borderBottom = 'calc( 8px * 1.732 ) solid #156958';
+          }
+
+          const outCount = parseInt(data.payload.OutCount, 10);
+          
+          // 초기화
+          for (let i = 1; i <= 3; i++) {
+            document.getElementById(`out${i}`).style.backgroundColor = '#1d836e';
+          }
+
+          // outCount만큼 색칠
+          for (let i = 1; i <= outCount && i <= 3; i++) {
+            document.getElementById(`out${i}`).style.backgroundColor = '#45ddbf';
+          }
+
+          
+        }
+      } catch (e) {
+        // 문자열일 경우 무시
+      }
+      console.log(event.data);
+
+      if (msg === 'guide-on') {
+        document.body.style.backgroundImage = "url('/src/img/guide.png')";
+        document.body.style.backgroundSize = "cover"; // 필요한 경우 추가
+      } else if (msg === 'guide-off') {
+        document.body.style.backgroundImage = 'none';
+      }
+
+      //도루 업데이트
+      try {
+        const base1 = document.getElementById('base1');
+        const base2 = document.getElementById('base2');
+        const base3 = document.getElementById('base3');
+        
+        if (msg === 'base1-on') {
+          base1.style.backgroundColor = '#45ddbf';
+        } else if (msg === 'base1-off') {
+          base1.style.backgroundColor = '#1d836e';
+        } else if (msg === 'base2-on') {
+          base2.style.backgroundColor = '#45ddbf';
+        } else if (msg === 'base2-off') {
+          base2.style.backgroundColor = '#1d836e';
+        } else if (msg === 'base3-on') {
+          base3.style.backgroundColor = '#45ddbf';
+        } else if (msg === 'base3-off') {
+          base3.style.backgroundColor = '#1d836e';
+        } 
+      } catch (e) {
+        console.error('메시지 처리 오류:', e);
+      }
+
+      // outk/no-outk 비디오 재생
+      if (msg === 'outk-on') {
+        playVideo('outk');
+      } else if (msg === 'no-outk-on') {
+        playVideo('noOutk');
+      } else if (msg === 'homerun-on') {
+        playVideo('homeRun');
+      } else if (msg === '2homerun-on') {
+        playVideo('2homeRun');
+      } else if (msg === '3homerun-on') {
+        playVideo('3homeRun');
+      }
+    };
+
+    // outk/no-outk 비디오 재생
+    function playVideo(videoId) {
+      const video = document.getElementById(videoId);
+      if (!video) return;
+
+      // 먼저 재생 중인 영상은 모두 숨김
+      hideAllVideos();
+
+      // display: block으로 먼저 보이게 함
+      video.style.display = 'block';
+      video.style.opacity = '0'; // 초기 투명
+
+      video.pause();
+      video.currentTime = 0;
+
+      // 강제 리플로우 유도
+      void video.offsetWidth;
+
+      // 한 프레임 뒤에 opacity = 1 (트리거)
+      requestAnimationFrame(() => {
+        video.style.opacity = '1';
+        video.play();
+      });
+
+      // 5초 후 페이드 아웃 + 0.5초 뒤 숨기기
+      setTimeout(() => {
+        video.style.opacity = '0';
+        setTimeout(() => {
+          video.style.display = 'none';
+        }, 500); // CSS transition 시간과 일치
+      }, 6000);
+    }
+
+    function hideAllVideos() {
+      ['outk', 'noOutk', 'homeRun', '2homeRun', '3homeRun'].forEach((id) => {
+        const vid = document.getElementById(id);
+        if (vid) {
+          vid.style.opacity = '0';
+          vid.style.display = 'none';
+          vid.pause();
+        }
+      });
+    }
+    </script>
+</body>
+</html>

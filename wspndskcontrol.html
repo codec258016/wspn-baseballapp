@@ -4,8 +4,11 @@
   <meta charset="UTF-8">
   <link rel="icon" href="src/icon/wspnicon.ico">
   <title>WSPN DSK CONTROL</title>
-  <script src="js/sheet.js"></script>
   <script src="js/ws.js"></script>
+  <script src="js/sheet.js"></script>
+  <script src="js/coder.js"></script>
+  <script src="js/record.js"></script>
+
   <link rel="stylesheet" href="css/control.css" />
 </head>
 <body>
@@ -17,7 +20,8 @@
         <div class="coder_state btn100px" id="coderStatus"><p>OFF</p></div>
         <div class="dsk_ctrl">
           <button class="btn100px" onclick="toggleGuide()">Guide</button>
-          <button class="btn100px btnend" onclick="handleCopy()">DSK Copy</button>
+          <button class="btn100px" onclick="handleCopy1()">DSK1 Copy</button>
+          <button class="btn100px btnend" onclick="handleCopy2()">DSK2 Copy</button>
         </div>
       </div>
       <hr class="line"></hr>
@@ -89,7 +93,7 @@
         <input type="text" class="inputstart bet" id="AwaySLG" placeholder="SLG">
         <input type="text" class="inputstart bet" id="AwayHR" placeholder="HR">
         <input type="text" class="inputstart bet" id="AwayRBI" placeholder="RBI">
-        <button class="btn80px" onclick="toggleAwayBetRecord()">ON/OFF</button>
+        <button class="btn80px" id="UpdateAwayBet" onclick="toggleAwayBetRecord()">ON/OFF</button>
       </div>
       <p class="margintop">AWAY Pitcher Record</p>
       <div class="records">
@@ -99,7 +103,7 @@
         <input type="text" class="inputstart pit" id="AwayIP" placeholder="INNING">
         <input type="text" class="inputstart pit" id="AwayBB" placeholder="Ball">
         <input type="text" class="inputstart pit" id="AwayS" placeholder="Strike">
-        <button class="btn80px" onclick="toggleAwayPitRecord()">ON/OFF</button>
+        <button class="btn80px" id="UpdateAwayPitch" onclick="toggleAwayPitRecord()">ON/OFF</button>
       </div>
       <hr class="line"></hr>
       <p>HOME Better Record</p>
@@ -109,7 +113,7 @@
         <input type="text" class="inputstart bet" id="HomeSLG" placeholder="SLG">
         <input type="text" class="inputstart bet" id="HomeHR" placeholder="HR">
         <input type="text" class="inputstart bet" id="HomeRBI" placeholder="RBI">
-        <button class="btn80px" onclick="toggleHomeBetRecord()">ON/OFF</button>
+        <button class="btn80px" id="UpdateHomeBet" onclick="toggleHomeBetRecord()">ON/OFF</button>
       </div>
       <p class="margintop">HOME Pitcher Record</p>
       <div class="records">
@@ -119,7 +123,7 @@
         <input type="text" class="inputstart pit" id="HomeIP" placeholder="INNING">
         <input type="text" class="inputstart pit" id="HomeBB" placeholder="Ball">
         <input type="text" class="inputstart pit" id="HomeS" placeholder="Strike">
-        <button class="btn80px" onclick="toggleHomePitRecord()">ON/OFF</button>
+        <button class="btn80px" id="UpdateHomePitch" onclick="toggleHomePitRecord()">ON/OFF</button>
       </div>
     </div>
 

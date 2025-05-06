@@ -226,25 +226,25 @@ select{
     width: calc(50% - 30px);
     height: 700px;
     margin: 30px 30px 30px 0;
+    overflow: hidden;
 }
 
 /*record*/
 .records{
-    width: 100%;
     height: 40px;
     display: flex;
 }
 .bet{
-    width: 81px;
+    width: 82px;
 }
 .pit{
-    width: 66px;
+    width: 67px;
 }
 
 /*tap*/
 .popup{
-    width: 1140px;
-    height: 700px;
+    width: 1146px;
+    height: 702px;
     background-color: #F0F0F0;
     border-radius: 3px;
     position: fixed;

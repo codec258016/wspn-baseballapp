@@ -3,7 +3,7 @@
 <head>
   <link rel="icon" href="src/icon/wspnicon.ico">
   <title>WSPN DSK</title>
-  <link rel="stylesheet" href="css/keyer.css" />
+  <link rel="stylesheet" href="css/keyer2.css" />
 </head>
 <body>
   <img class="guide" id="guide" src="src/img/guide.png">
@@ -21,54 +21,7 @@
       const div = document.createElement('div');
       div.className = 'coder'; // 초기엔 fade-in 부여
       div.innerHTML = `
-        <div class="tnsc">
-            <div class="away-tn"><p id="awayTeam">AWAY</p></div>
-            <div class="away-sc"><p id="awayScore">0</p></div>
-            <div class="home-tn"><p id="homeTeam">HOME</p></div>
-            <div class="home-sc"><p id="homeScore">0</p></div>
-            <div class="matchstate">
-                <div class="inning">
-                    <div class="top" id="top"></div>
-                    <div class="inningNum"><p id="inningNum">0</p></div>
-                    <div class="btm" id="btm"></div>
-                    <img class="icon" src="src/icon/wspnicon.ico">
-                </div>
-                <div class="base-out-block">
-                    <div class="base base2" id="base2"></div>
-                    <div class="base2-3-block">
-                        <div class="base base1" id="base1"></div>
-                        <div class="base base3" id="base3"></div>
-                    </div>
-                    <div class="out-block">
-                        <div class="out" id="out1"></div>
-                        <div class="out" id="out2"></div>
-                        <div class="out" id="out3"></div>
-                    </div>
-                    <div class="ball-strike-block">
-                        <p id="ballCount">0</p><p class="dash">-</p><p id="strikeCount">0</p>
-                    </div>
-                </div>
-            </div>
-            <div class="k">
-                <video id="outk" muted autoplay><source src="src/video/outk.mp4" type="video/mp4"></video>
-                <video id="noOutk" muted autoplay style="margin: -135;"><source src="src/video/nooutk.mp4" type="video/mp4"></video>
-            </div>
-            <div class="homerun">
-                <video id="homeRun" muted autoplay><source src="src/video/homerun.mp4" type="video/mp4"></video>
-                <video id="2homeRun" muted autoplay><source src="src/video/2homerun.mp4" type="video/mp4"></video>
-                <video id="3homeRun" muted autoplay><source src="src/video/3homerun.mp4" type="video/mp4"></video>
-            </div>
-        </div>
-        <div class="player">
-            <div class="awaypalyer">
-              <p class="playertext" id="awayPlayer"></p>
-              <p class="pitch" id="awayPitchCount"></p>
-            </div>
-            <div class="homeplayer">
-              <p class="playertext" id="homePlayer"></p>
-              <p class="pitch" id="homePitchCount"></p>
-            </div>
-        </div>
+
       `;
     
       container.appendChild(div);
