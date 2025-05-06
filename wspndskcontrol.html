@@ -11,6 +11,7 @@
 <body>
   <div class="full">
     <div class="side">
+      <!--코더 컨트롤-->
       <div class="coder_dsk">
         <button class="btn100px btnstart" onclick="toggleCoder()">CODER</button>
         <div class="coder_state btn100px" id="coderStatus"><p>OFF</p></div>
@@ -20,6 +21,7 @@
         </div>
       </div>
       <hr class="line"></hr>
+      <!--팀/점수-->
       <div class="teams">
         <p class="pstart away">AWAY</p>
         <input type="number" id="Away-sc" value="0" min="0">
@@ -29,6 +31,7 @@
         <input type="number" id="Home-sc" value="0" min="0">
         <p class="pend">HOME</p>
       </div>
+      <!--코더 선수 정보-->
       <div class="teams margintop">
         <p class="pstart">Player</p>
         <select id="AwayPlayer" class="player" placeholder="Away"></select>
@@ -41,6 +44,7 @@
         <input type="number" id="HomePitch" class="inputend">
       </div>
       <hr class="line"></hr>
+      <!--이닝/카운트-->
       <div class="teams">
         <p class="pstart">INNING</p>
         <input type="number" id="InningCount" value="1" min="1">
@@ -56,14 +60,17 @@
         <p>O</p>
         <input type="number" id="OutCount" class="inputend" value="0" min="0">
       </div>
+      <!--코더 업데이트-->
       <button class="btnfull" id="UpdateBtn" onclick="toggleUpdate()">UPDATE</button>
       <hr class="line"></hr>
+      <!--진루 표시-->
       <div class="map">
         <img src="/src/img/map.png">
         <button class="base base3" onclick="toggleBase3()"></button>
         <button class="base base2" onclick="toggleBase2()"></button>
         <button class="base base1" onclick="toggleBase1()"></button>
       </div>
+      <!--애니메이션-->
       <div class="teams margintop">
         <button class="btn100px btnstart" onclick="toggleOutK()">Out K<br><b>5sec Auto</b></button>
         <button class="btn100px" onclick="toggleNoOutK()">No Out K<br><b>5sec Auto</b></button>
@@ -71,9 +78,49 @@
         <button class="btn110px" onclick="toggle2Homerun()">2Home Run<br><b>5sec Auto</b></button>
         <button class="btn110px btnend" onclick="toggle3Homerun()">3Home Run<br><b>5sec Auto</b></button>
       </div>
+      <!--로그-->
       <div class="logarea margintop" id="logArea"><p></p></div>
     </div>
     <div class="side2">
+      <p>AWAY Better Record</p>
+      <div class="records">
+        <input type="text" class="inputstart bet" id="AwayAVG" placeholder="AVG">
+        <input type="text" class="inputstart bet" id="AwayOBP" placeholder="OBP">
+        <input type="text" class="inputstart bet" id="AwaySLG" placeholder="SLG">
+        <input type="text" class="inputstart bet" id="AwayHR" placeholder="HR">
+        <input type="text" class="inputstart bet" id="AwayRBI" placeholder="RBI">
+        <button class="btn80px" onclick="toggleAwayBetRecord()">ON/OFF</button>
+      </div>
+      <p class="margintop">AWAY Pitcher Record</p>
+      <div class="records">
+        <input type="text" class="inputstart pit" id="AwayGame" placeholder="Game">
+        <input type="text" class="inputstart pit" id="AwayWL" placeholder="W-L">
+        <input type="text" class="inputstart pit" id="AwayERA" placeholder="ERA">
+        <input type="text" class="inputstart pit" id="AwayIP" placeholder="INNING">
+        <input type="text" class="inputstart pit" id="AwayBB" placeholder="Ball">
+        <input type="text" class="inputstart pit" id="AwayS" placeholder="Strike">
+        <button class="btn80px" onclick="toggleAwayPitRecord()">ON/OFF</button>
+      </div>
+      <hr class="line"></hr>
+      <p>HOME Better Record</p>
+      <div class="records">
+        <input type="text" class="inputstart bet" id="HomeAVG" placeholder="AVG">
+        <input type="text" class="inputstart bet" id="HomeOBP" placeholder="OBP">
+        <input type="text" class="inputstart bet" id="HomeSLG" placeholder="SLG">
+        <input type="text" class="inputstart bet" id="HomeHR" placeholder="HR">
+        <input type="text" class="inputstart bet" id="HomeRBI" placeholder="RBI">
+        <button class="btn80px" onclick="toggleHomeBetRecord()">ON/OFF</button>
+      </div>
+      <p class="margintop">HOME Pitcher Record</p>
+      <div class="records">
+        <input type="text" class="inputstart pit" id="HomeGame" placeholder="Game">
+        <input type="text" class="inputstart pit" id="HomeWL" placeholder="W-L">
+        <input type="text" class="inputstart pit" id="HomeERA" placeholder="ERA">
+        <input type="text" class="inputstart pit" id="HomeIP" placeholder="INNING">
+        <input type="text" class="inputstart pit" id="HomeBB" placeholder="Ball">
+        <input type="text" class="inputstart pit" id="HomeS" placeholder="Strike">
+        <button class="btn80px" onclick="toggleHomePitRecord()">ON/OFF</button>
+      </div>
     </div>
 
     <div class="popup" id="sheetSet">
@@ -102,6 +149,9 @@
           <b>NOTICE</b><br>
           코더에 포함된 리소스(삼진, 홈런 애니메이션)는 경기 테마에 따라 제시된 가이드에 맟줘 변경하여 사용하는것을 권장합니다.<br>
           기본으로 제공되는 리소스는 코오데엑에게 저작권이 있으며, 별도로 사용범위에 제한을 두지 않습니다.<br><br>
+
+          <b>TUTORIAL LINK</b><br>
+          <a href="https://github.com/codec258016/wspn-baseballapp" target="_blank">GitHub Repository</a><br><br>
 
           <b>APP VERSION</b><br>
           0.0.0-1f<br><br>

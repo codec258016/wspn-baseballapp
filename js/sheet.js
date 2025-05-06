@@ -6,45 +6,53 @@ function SheetLoad() {
   const loadButton = document.querySelector('.loadAllSheets');
   const loadStatus = document.querySelector('#loadStatus');
 
-  const sheetId = sheetIdInput.value.trim();
   const apiKey = apiKeyInput.value.trim();
+  const sheetId = sheetIdInput.value.trim();
 
-  if (!sheetId) {
-    loadStatus.textContent = 'Google Sheet ID를 입력해주세요.';
-    sheetIdInput.focus();
-    return;
-  }
   if (!apiKey) {
-    loadStatus.textContent = 'Google API Key를 입력해주세요.';
+    loadStatus.textContent = 'API키를 입력하세요';
     apiKeyInput.focus();
     return;
   }
+  if (!sheetId) {
+    loadStatus.textContent = '시트 ID를 입력하세요';
+    sheetIdInput.focus();
+    return;
+  }
 
-  loadButton.textContent = '로딩 중...';
+  loadButton.textContent = '동기화 중';
   loadButton.disabled = true;
 
   const metadataUrl = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}?key=${apiKey}&fields=sheets.properties(title)`;
 
   fetch(metadataUrl)
-    .then(response => {
-      if (!response.ok) {
-        return response.json().then(errorData => {
-          let errorMessage = `시트 정보 로딩 실패 (${response.status}): `;
-          errorMessage += errorData.error?.message || response.statusText;
-          if (response.status === 403) {
-            errorMessage += "\n(API 키 문제, API 비활성화 또는 접근 권한 문제일 수 있습니다.)";
-          } else if (response.status === 404) {
-            errorMessage += "\n(시트 ID가 잘못되었을 수 있습니다.)";
-          }
-          throw new Error(errorMessage);
-        });
-      }
-      return response.json();
-    })
+  .then(response => {
+    if (!response.ok) {
+      return response.json().then(errorData => {
+        let errorMessage = `시트 접근 실패 (${response.status}): `;
+  
+        const rawMsg = errorData.error?.message || response.statusText;
+  
+        // 세부 메시지 매핑
+        if (rawMsg.includes('API key not valid')) {
+          errorMessage += '유효하지 않거나 만료된 API 키입니다.';
+        } else if (rawMsg.includes('The caller does not have permission')) {
+          errorMessage += '시트 접근에 실패했습니다. 비공개 또는 접근 권한이 없는 시트입니다.';
+        } else if (rawMsg.includes('Requested entity was not found')) {
+          errorMessage += '잘못된 시트 ID 또는 없는 시트입니다.';
+        } else {
+          errorMessage += rawMsg; // 기본 메시지
+        }
+  
+        throw new Error(errorMessage);
+      });
+    }
+    return response.json();
+  })
     .then(metadata => {
       const sheetNames = metadata.sheets?.map(s => s.properties.title) || [];
       if (sheetNames.length === 0) {
-        loadStatus.textContent = "시트 정보를 찾을 수 없습니다.";
+        loadStatus.textContent = "Cannot Access Sheet";
         resetLoadButton(loadButton);
         return;
       }
@@ -70,6 +78,19 @@ function SheetLoad() {
         const inning = document.getElementById('InningTBSelect').value;
         const awaySheet = awaySelect.value;
         const homeSheet = homeSelect.value;
+
+        // 이닝 변경 시 기록 필드 초기화
+        const recordFields = [
+          'AwayAVG', 'AwayOBP', 'AwaySLG', 'AwayHR', 'AwayRBI',
+          'AwayGame', 'AwayWL', 'AwayERA', 'AwayIP', 'AwayBB', 'AwayS',
+          'HomeAVG', 'HomeOBP', 'HomeSLG', 'HomeHR', 'HomeRBI',
+          'HomeGame', 'HomeWL', 'HomeERA', 'HomeIP', 'HomeBB', 'HomeS'
+        ];
+
+        recordFields.forEach(id => {
+          const input = document.getElementById(id);
+          if (input) input.value = '';
+        });
         if (awaySheet) {
           const pos = inning === 'Top' ? 'better' : 'pitcher';
           loadPlayersFromSheet(sheetId, apiKey, awaySheet, document.getElementById('AwayPlayer'), pos);
@@ -80,11 +101,11 @@ function SheetLoad() {
         }
       });
 
-      loadStatus.textContent = `총 ${sheetNames.length}개의 팀을 불러왔습니다.`;
+      loadStatus.textContent = `${sheetNames.length}개의 팀 시트를 불러왔습니다.`;
     })
     .catch(error => {
       console.error('SheetLoad function error:', error);
-      loadStatus.textContent = `오류 발생: ${error.message}`;
+      loadStatus.textContent = `오류: ${error.message}`;
     })
     .finally(() => {
       resetLoadButton(loadButton);
@@ -136,9 +157,82 @@ function loadPlayersFromSheet(sheetId, apiKey, sheetName, playerDropdown, positi
         const value = `${number}. ${name}`;
         playerDropdown.appendChild(createOption(value, value));
       });
+
+      playerDropdown.addEventListener('change', () => {
+        const playerValue = playerDropdown.value;
+        const sheetId = document.getElementById('sheetID').value.trim();
+        const apiKey = document.getElementById('sheetAPI').value.trim();
+    
+        const sheetName = playerDropdown.id.includes('Away')
+          ? document.getElementById('Away-tn').value
+          : document.getElementById('Home-tn').value;
+    
+        const prefix = playerDropdown.id.includes('Away') ? 'Away' : 'Home';
+    
+        if (!playerValue || !sheetName) return;
+    
+        console.log('🎯 선수 선택됨:', playerValue);
+        loadPlayerRecordFromSheet(sheetId, apiKey, sheetName, playerValue, prefix);
+      });
     })
     .catch(error => {
       console.error('loadPlayersFromSheet error:', error);
       alert('선수 목록을 불러오는 데 실패했습니다.');
     });
 }
+
+function loadPlayerRecordFromSheet(sheetId, apiKey, sheetName, playerValue, prefix) {
+  const range = encodeURIComponent(`${sheetName}!A3:AH`);
+  const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${range}?key=${apiKey}`;
+
+  
+  fetch(url)
+    .then(response => {
+      if (!response.ok) throw new Error(`기록 불러오기 실패 (${response.status})`);
+      return response.json();
+    })
+    .then(data => {
+      const rows = data.values || [];
+
+      const playerNumber = playerValue.split('.')[0].trim();
+
+      // 디버깅 로그 추가
+      console.log('[선수번호]', playerNumber);
+      console.log('[불러온 rows]', rows);
+
+      const targetRow = rows.find(row => {
+        const number = row[1]?.toString().trim();
+        return number === playerNumber;
+      });
+
+      if (!targetRow) {
+        console.warn('🔴 일치하는 선수 없음:', playerNumber);
+        return;
+      }
+
+      console.log('✅ 찾은 선수 행:', targetRow);
+
+      const position = targetRow[0]?.toLowerCase();
+
+      if (position === 'better') {
+        document.getElementById(`${prefix}AVG`).value = targetRow[10] || '';
+        document.getElementById(`${prefix}OBP`).value = targetRow[11] || '';
+        document.getElementById(`${prefix}SLG`).value = targetRow[12] || '';
+        document.getElementById(`${prefix}HR`).value  = targetRow[5] || '';
+        document.getElementById(`${prefix}RBI`).value = targetRow[6] || '';
+      } else if (position === 'pitcher') {
+        document.getElementById(`${prefix}Game`).value = targetRow[17] || '';
+        const W = targetRow[20] || '0';
+        const L = targetRow[21] || '0';
+        document.getElementById(`${prefix}WL`).value = `${W}-${L}`;
+        document.getElementById(`${prefix}ERA`).value = targetRow[30] || '';
+        document.getElementById(`${prefix}IP`).value = targetRow[19] || '';
+        document.getElementById(`${prefix}BB`).value = targetRow[27] || '';
+        document.getElementById(`${prefix}S`).value = targetRow[33] || '';
+      }
+    })
+    .catch(error => {
+      console.error('loadPlayerRecordFromSheet error:', error);
+    });
+}
+

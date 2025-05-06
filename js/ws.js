@@ -11,60 +11,66 @@ const togglemsg = new Set([
   'base3-on', 'base3-off',
   'outk-on', 'no-outk-on',
   'homerun-on', '2homerun-on', '3homerun-on',
-  'guide-on', 'guide-off'
+  'guide-on', 'guide-off', 'Copied http://localhost:5001/wspndskeyer.html'
 ]);
 
 /*로그 및 메세지 처리리*/
+// 메시지 수신 처리
 ws.onmessage = (event) => {
+  const raw = event.data;
+  const logAreaP = document.querySelector('#logArea p');
+  const coderStatus = document.querySelector('#coderStatus');
+  const coderStatusP = coderStatus.querySelector('p');
+
+  // 로그 출력
+  if (logAreaP) {
+    const logLine = document.createElement('div');
+    logLine.textContent = '[T/S] ' + raw;
+    logAreaP.appendChild(logLine);
+    logAreaP.scrollTop = logAreaP.scrollHeight;
+  }
+
+  let parsed = null;
   try {
-    const message = event.data; // 문자열 그대로 수신
-    console.log('[WS]', message); // 콘솔 확인
+    parsed = JSON.parse(raw);
+  } catch {
+    // JSON이 아니면 문자열로 처리
+  }
 
-    const logArea = document.querySelector('#logArea');
-    const logAreap = document.querySelector('#logArea p');
-    if (logArea) {
-      const logLine = document.createElement('div');
-      logLine.textContent =('[T/S] '+ message);
-      logAreap.appendChild(logLine);
-      logArea.scrollTop = logArea.scrollHeight; // 자동 스크롤
-    }
-
-    // 점수 업데이트 메시지는 무시
-    if (msg.type === 'score-update') {
-      console.log('점수 메시지 수신:', msg.payload);
-      return;
-    }
-
-  } catch (e) {
-    const msg = event.data;
-    const coderStatusp = document.querySelector('#coderStatus p');
-  
-    // 객체 형태면 type에 따라 처리
-    if (typeof msg === 'object' && msg.type) {
-      // type에 따라 별도 처리, 예시)
-      if (msg.type === 'score-update') {
-        // 점수 업데이트 로직 (필요하면)
+  if (parsed && typeof parsed === 'object') {
+    switch (parsed.type) {
+      case 'DataUpdate':
+        console.log('데이터 업데이트 수신:', parsed.payload);
+        coderStatus.style.backgroundColor = '#27C0A2';
         return;
-      } else {
-        coderStatusp.innerText = 'ERR';
+
+      default:
+        coderStatusP.innerText = 'ERR';
         coderStatus.style.backgroundColor = 'red';
-        console.error('알 수 없는 객체 메시지:', msg);
-      }
+        console.error('알 수 없는 객체 메시지:', parsed);
+        return;
     }
-    // 문자열 처리
-    else if (msg === 'coder-on') {
-      coderStatusp.innerText = 'ON';
+  }
+
+  // 문자열 메시지 처리
+  const msg = raw;
+  switch (msg) {
+    case 'coder-on':
+      coderStatusP.innerText = 'ON';
       coderStatus.style.backgroundColor = '#27C0A2';
-    } else if (msg === 'coder-off') {
-      coderStatusp.innerText = 'OFF';
+      break;
+    case 'coder-off':
+      coderStatusP.innerText = 'OFF';
       coderStatus.style.backgroundColor = '#131313';
-    } else if (knownMsgs.has(msg)) {
-      console.log('메시지 수신:', msg);
-    } else {
-      coderStatusp.innerText = 'ERR';
-      coderStatus.style.backgroundColor = 'red';
-      console.error('알 수 없는 메시지:', msg);
-    }
+      break;
+    default:
+      if (togglemsg.has(msg)) {
+        console.log('메시지 수신:', msg);
+      } else {
+        coderStatusP.innerText = 'ERR';
+        coderStatus.style.backgroundColor = 'red';
+        console.error('알 수 없는 메시지:', msg);
+      }
   }
 };
 
@@ -242,8 +248,8 @@ const baseState = {
   base3: false
 };
 
+//베이스 버튼 상태 토글 함수
 /**
- * 베이스 버튼 상태 토글 함수
  * @param {string} baseName
  */
 function toggleBase(baseName) {
@@ -276,9 +282,8 @@ function toggleBase3() {
   toggleBase('base3');
 }
 
-
+//애니메이션 재생 버튼
 /**
- * 애니메이션 재생 버튼
  * @param {string} message
  */
 function sendWSMessage(message) {

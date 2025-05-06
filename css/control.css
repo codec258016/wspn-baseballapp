@@ -35,6 +35,9 @@ button>b{
     color: #ffffffd0;
     font-size: 12px;
 }
+.btn80px{
+    width: 80px;
+}
 .btn100px{
     width: 100px;
 }
@@ -225,6 +228,19 @@ select{
     margin: 30px 30px 30px 0;
 }
 
+/*record*/
+.records{
+    width: 100%;
+    height: 40px;
+    display: flex;
+}
+.bet{
+    width: 81px;
+}
+.pit{
+    width: 66px;
+}
+
 /*tap*/
 .popup{
     width: 1140px;
@@ -249,6 +265,11 @@ select{
 .popup>p>b{
     font-family: 'Paperlogy-8ExtraBold';
     font-size: 20px;
+}
+.popup>p>a{
+    font-family: 'Paperlogy-6SemiBold';
+    color: #27C0A2;
+    text-decoration: none;
 }
 
 .sheetinput{
