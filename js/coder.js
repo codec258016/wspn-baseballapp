@@ -3,8 +3,7 @@ const ws1 = new WebSocket('ws://localhost:5001'); // 전역에 한 번만 선언
 ws1.onopen = () => {
   console.log('[coder] WebSocket 연결됨');
 };
-
-/*코더 ON/OFF*/
+//코더 ON/OFF
 let isCoderOn = false;
 
 function toggleCoder() {
@@ -16,7 +15,7 @@ function toggleCoder() {
   }
 }
 
-/*가이드 ON/OFF*/
+//가이드 ON/OFF
 let isGuideOn = false;
 
 function toggleGuide() {
@@ -34,8 +33,17 @@ function handleCopy1() {
     navigator.clipboard.writeText("http://localhost:5001/wspndskeyer1.html");
     const msg = ('Copied http://localhost:5001/wspndskeyer1.html');
     ws.send(msg);
-  } catch (err) {
-    alert("복사에 실패했습니다.");
+  }catch (err) {
+    console.error('복사 실패: '.err);
+  }
+};
+function handleCopy2() {
+  try {
+    navigator.clipboard.writeText("http://localhost:5001/wspndskeyer2.html");
+    const msg = ('Copied http://localhost:5001/wspndskeyer2.html');
+    ws.send(msg);
+  }catch (err) {
+    console.error('복사 실패: '.err);
   }
 };
 
@@ -103,7 +111,7 @@ async function toggleUpdate() {
   }
 }
 
-// 선수 이름에서 이름만 추출 (예: "17. 오타니" → "오타니")
+// 선수 이름에서 이름만 추출
 function extractName(playerValue) {
   const parts = playerValue.split('. ');
   return parts.length === 2 ? parts[1] : playerValue;
